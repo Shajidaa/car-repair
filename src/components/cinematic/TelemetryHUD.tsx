@@ -65,27 +65,51 @@ export default function TelemetryHUD({ chapterIndex }: TelemetryProps) {
   const data = getChapterData();
 
   return (
-    <div className="absolute inset-x-0 bottom-0 pointer-events-none p-6 sm:p-10 z-20">
-      {/* Bottom Floating Telemetry Metrics Pods */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 max-w-2xl">
+    <div className="absolute inset-x-0 bottom-0 pointer-events-none p-3 sm:p-6 md:p-10 z-20">
+      {/* Responsive Telemetry Metrics Pods */}
+      {/* Mobile: Ultra-sleek single-line glass chip */}
+      <div className="flex sm:hidden items-center justify-between gap-2 max-w-full px-3 py-2 rounded-xl bg-slate-950/85 border border-slate-800/90 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="p-1.5 rounded-lg bg-brand-accent/10 border border-brand-accent/20 text-brand-accent flex-shrink-0">
+            {(() => {
+              const Icon = data.metrics[0].icon;
+              return <Icon className="w-3.5 h-3.5" />;
+            })()}
+          </div>
+          <div className="flex flex-col min-w-0">
+            <span className="text-[8px] font-mono text-slate-400 tracking-wider truncate">
+              {data.metrics[0].label}
+            </span>
+            <span className="text-[11px] font-mono font-bold text-white tracking-tight truncate">
+              {data.metrics[0].value}
+            </span>
+          </div>
+        </div>
+        <span className="text-[8px] font-mono text-emerald-400 tracking-widest font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex-shrink-0">
+          ● {data.metrics[0].status}
+        </span>
+      </div>
+
+      {/* Tablet & Desktop: Full 3-pod diagnostic telemetry matrix */}
+      <div className="hidden sm:grid grid-cols-3 gap-2 sm:gap-3 max-w-2xl">
         {data.metrics.map((m, idx) => {
           const Icon = m.icon;
           return (
             <div
               key={idx}
-              className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-slate-950/80 border border-slate-800/90 backdrop-blur-lg shadow-[0_4px_20px_rgba(0,0,0,0.6)] group transition-all"
+              className="flex items-center gap-2.5 sm:gap-3 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-slate-950/80 border border-slate-800/90 backdrop-blur-lg shadow-[0_4px_20px_rgba(0,0,0,0.6)] group transition-all hover:border-brand-accent/40"
             >
-              <div className="p-2 rounded-lg bg-brand-accent/10 border border-brand-accent/20 text-brand-accent">
-                <Icon className="w-4 h-4" />
+              <div className="p-1.5 sm:p-2 rounded-lg bg-brand-accent/10 border border-brand-accent/20 text-brand-accent flex-shrink-0">
+                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-[9px] font-mono text-slate-400 tracking-wider truncate">
+                <span className="text-[8px] sm:text-[9px] font-mono text-slate-400 tracking-wider truncate">
                   {m.label}
                 </span>
-                <span className="text-xs font-mono font-bold text-white tracking-tight">
+                <span className="text-[11px] sm:text-xs font-mono font-bold text-white tracking-tight truncate">
                   {m.value}
                 </span>
-                <span className="text-[8px] font-mono text-emerald-400 tracking-widest font-semibold">
+                <span className="text-[7px] sm:text-[8px] font-mono text-emerald-400 tracking-widest font-semibold">
                   ● {m.status}
                 </span>
               </div>

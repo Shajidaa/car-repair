@@ -9,6 +9,9 @@ import InteractiveEstimator from "@/components/sections/InteractiveEstimator";
 import TechnicalSpecs from "@/components/sections/TechnicalSpecs";
 import LocationHub from "@/components/sections/LocationHub";
 import ReviewsCarousel from "@/components/sections/ReviewsCarousel";
+import HolographicScanner from "@/components/sections/HolographicScanner";
+
+
 
 // Dynamic import for Three.js 3D WebGL Canvas to ensure optimal SSR/CSR hydration performance
 const CarScene3D = dynamic(() => import("@/components/3d/CarScene3D"), {
@@ -31,29 +34,33 @@ export default function Home() {
       {/* 1. Cinematic 300-Frame Scrubber Hero Section */}
       <PorscheScrubberHero />
 
-      {/* 2. Craftsmanship Manifesto & 03-Day Rapid Sprint Pillars */}
+      {/* 2. Interactive 3D Holographic Scanner & Laser Inspection Section */}
+      <HolographicScanner />
+
+
+      {/* 3. Craftsmanship Manifesto & 03-Day Rapid Sprint Pillars */}
       <StoryManifesto />
 
-      {/* 3. Interactive 3D WebGL Showroom & Paint Studio */}
+      {/* 4. Interactive 3D WebGL Showroom & Paint Studio */}
       <CarScene3D />
 
       {/* 4. Complete Engineered Services Catalog */}
-      {/* <ServicesMatrix /> */}
+      <ServicesMatrix />
 
       {/* 5. Interactive Before/After Restoration Comparison Slider */}
-      {/* <BeforeAfterSlider /> */}
+      <BeforeAfterSlider />
 
       {/* 6. Real-Time 03-Day Cost & Turnaround Estimator */}
-      {/* <InteractiveEstimator /> */}
+      <InteractiveEstimator />
 
       {/* 7. Laboratory Engineering Tolerance Matrix */}
-      {/* <TechnicalSpecs /> */}
+      <TechnicalSpecs />
 
       {/* 8. 12902 Hwy 99 Ste 7 Location Hub & Direct Line */}
-      {/* <LocationHub /> */}
+      <LocationHub />
 
       {/* 9. Verified Driver Testimonials Carousel */}
-      {/* <ReviewsCarousel /> */}
+      <ReviewsCarousel />
     </div>
   );
 }

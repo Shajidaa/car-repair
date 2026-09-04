@@ -16,7 +16,7 @@ const CHAPTERS = [
   {
     id: "exterior",
     title: "Auto Body Repair Inc.",
-    subheadline: "",
+    subheadline: "Factory-Certified Porsche Collision & Restoration Laboratory",
     category: "EXTERIOR & COATING",
     description:
       "Factory-certified collision restoration, computerized paint matching, and multi-stage ceramic curing in clean-room downdraft booths.",
@@ -111,6 +111,14 @@ export default function PorscheScrubberHero() {
             }
           }
           setCurrentChapter(chapIdx);
+
+          // Synchronize video timeline smoothly with scroll progress
+          if (videoRef.current && videoRef.current.duration) {
+            const targetTime = p * videoRef.current.duration;
+            if (Math.abs(videoRef.current.currentTime - targetTime) > 0.04) {
+              videoRef.current.currentTime = targetTime;
+            }
+          }
         },
       });
     }, sectionRef);
@@ -138,15 +146,12 @@ export default function PorscheScrubberHero() {
     <section
       id="restoration-film"
       ref={sectionRef}
-      className="relative w-full h-[450vh] bg-slate-950 text-white"
+      className="relative w-full  bg-slate-950 text-white"
     >
       {/* Pinned Viewport Stage */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
-        {/* Background Ambient Radial Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(0,210,255,0.14)_0%,rgba(8,14,26,0.85)_60%,#030712_100%)] pointer-events-none" />
-
-        {/* Video Scrubber Element (Always Plays & Loops) */}
-        <div className="relative w-full h-full flex items-center justify-center">
+        {/* Full-Cover Background Animation Layer (Covers 100% full background across all devices) */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none select-none">
           <video
             ref={videoRef}
             src={VIDEO_SRC}
@@ -154,36 +159,58 @@ export default function PorscheScrubberHero() {
             loop
             muted
             playsInline
-            className="w-full h-full object-contain max-h-screen select-none pointer-events-none"
+            preload="auto"
+            className="absolute inset-0 w-full h-full object-cover object-center scale-[1.02] transform-gpu select-none pointer-events-none"
           />
         </div>
 
-        {/* Studio Floor & Vignette Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-slate-950/80 pointer-events-none z-10" />
-        <div className="absolute top-0 left-0 right-0 h-36 bg-gradient-to-b from-slate-950/90 to-transparent pointer-events-none z-10" />
-        <div className="absolute bottom-0 left-0 right-0 h-44 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent pointer-events-none z-10" />
+        {/* Ambient Radial Studio Glow */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(0,210,255,0.14)_0%,rgba(8,14,26,0.7)_65%,#030712_100%)] pointer-events-none" />
+
+        {/* Studio Floor & Vignette Overlays for contrast & readability */}
+        {/* Desktop horizontal vignette */}
+        {/* <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-950/40 to-slate-950/80 hidden md:block pointer-events-none z-10" /> */}
+        {/* Mobile vertical vignette */}
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-slate-950/95 via-slate-950/50 to-slate-950/95 md:hidden pointer-events-none z-10" /> */}
+        {/* Top Header Fade */}
+        <div className="absolute top-0 inset-x-0 h-28 sm:h-36 bg-gradient-to-b from-slate-950/95 via-slate-950/60 to-transparent pointer-events-none z-10" />
+        {/* Bottom Fade */}
+        <div className="absolute bottom-0 inset-x-0 h-36 sm:h-52 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent pointer-events-none z-10" />
 
         {/* Live Diagnostics Telemetry Overlay */}
         <TelemetryHUD progress={progress} chapterIndex={currentChapter} />
 
+        {/* Mobile Top Chapter Status Indicator */}
+        <div className="absolute top-20 left-4 sm:left-10 z-20 flex lg:hidden items-center gap-2 px-3 py-1.5 rounded-full bg-slate-950/80 border border-slate-800/80 backdrop-blur-md shadow-lg">
+          <span className="w-2 h-2 rounded-full bg-brand-accent animate-ping" />
+          <span className="text-[10px] font-mono font-bold text-brand-accent uppercase tracking-wider">
+            STAGE 0{currentChapter + 1} / 0{CHAPTERS.length}
+          </span>
+          <span className="text-[9px] font-mono text-slate-400 hidden sm:inline">
+            • {activeChap.category}
+          </span>
+        </div>
+
         {/* Chapter Narrative Overlay Cards */}
-        <div className="absolute inset-0 flex flex-col justify-center px-6 sm:px-12 md:px-20 lg:px-28 z-20 pointer-events-none">
-          <div className="max-w-3xl pointer-events-auto space-y-4">
+        <div className="absolute inset-0 flex flex-col justify-center px-4 sm:px-10 md:px-16 lg:px-24 z-20 pointer-events-none">
+          <div className="max-w-3xl pointer-events-auto space-y-3 sm:space-y-4">
             {/* Category Pill */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent/15 border border-brand-accent/40 backdrop-blur-md text-brand-accent text-xs font-mono font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(0,210,255,0.3)] animate-pulse">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-accent/15 border border-brand-accent/40 backdrop-blur-md text-brand-accent text-[10px] sm:text-xs font-mono font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(0,210,255,0.3)] animate-pulse">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{activeChap.category}</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight font-display text-white leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight font-display text-white leading-[1.15] sm:leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)]">
               {activeChap.title}
             </h1>
 
             {/* Subheadline with Address Callout */}
-            <p className="text-base sm:text-xl font-medium text-brand-sky font-sans tracking-wide max-w-2xl drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)]">
-              {activeChap.subheadline}
-            </p>
+            {activeChap.subheadline && (
+              <p className="text-xs sm:text-base md:text-xl font-medium text-brand-sky font-sans tracking-wide max-w-2xl drop-shadow-[0_2px_15px_rgba(0,0,0,0.9)]">
+                {activeChap.subheadline}
+              </p>
+            )}
 
             {/* Technical Narrative Description */}
             <p className="text-xs sm:text-sm text-slate-300 font-sans leading-relaxed max-w-xl line-clamp-3 sm:line-clamp-none drop-shadow">
@@ -199,18 +226,18 @@ export default function PorscheScrubberHero() {
                 data-cursor-label="BOOK NOW"
               >
                 <span className="absolute inset-0 bg-gradient-to-r from-brand-accent via-sky-400 to-blue-600 rounded-xl animate-glow-line" />
-                <span className="relative flex items-center gap-2.5 px-6 py-3.5 rounded-[11px] bg-slate-950 text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider group-hover:bg-slate-900 transition-all">
-                  <Calendar className="w-4 h-4 text-brand-accent" />
+                <span className="relative flex items-center gap-2 sm:gap-2.5 px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-[11px] bg-slate-950 text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider group-hover:bg-slate-900 transition-all">
+                  <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-accent" />
                   Schedule Precision Estimate
-                  <ArrowRight className="w-4 h-4 text-brand-accent group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-accent group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* Floating Vertical Chapter Bookmarks (Right Edge) */}
-        <div className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 hidden md:flex flex-col gap-3">
+        {/* Floating Vertical Chapter Bookmarks (Right Edge for Large Screens) */}
+        <div className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 hidden lg:flex flex-col gap-3">
           {CHAPTERS.map((chap, idx) => (
             <button
               key={chap.id}
@@ -221,15 +248,15 @@ export default function PorscheScrubberHero() {
               data-cursor-label={`0${idx + 1}`}
             >
               <span
-                className={`text-[10px] font-mono tracking-widest uppercase transition-colors hidden lg:inline ${currentChapter === idx ? "text-brand-accent font-bold" : "text-slate-400"
+                className={`text-[10px] font-mono tracking-widest uppercase transition-colors hidden xl:inline ${currentChapter === idx ? "text-brand-accent font-bold" : "text-slate-400"
                   }`}
               >
                 0{idx + 1} {chap.id}
               </span>
               <span
                 className={`w-2.5 h-2.5 rounded-full border transition-all ${currentChapter === idx
-                    ? "bg-brand-accent border-brand-accent shadow-[0_0_10px_#00D2FF]"
-                    : "border-slate-500 bg-transparent group-hover:border-slate-300"
+                  ? "bg-brand-accent border-brand-accent shadow-[0_0_10px_#00D2FF]"
+                  : "border-slate-500 bg-transparent group-hover:border-slate-300"
                   }`}
               />
             </button>
@@ -237,11 +264,11 @@ export default function PorscheScrubberHero() {
         </div>
 
         {/* Bottom Scroll Cue Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1.5 pointer-events-none text-slate-400">
-          <span className="text-[10px] font-mono uppercase tracking-widest text-slate-300 animate-pulse">
+        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-1 sm:gap-1.5 pointer-events-none text-slate-400">
+          <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-slate-300 animate-pulse text-center px-4">
             Scroll to explore precision restoration stages
           </span>
-          <ChevronDown className="w-4 h-4 text-brand-accent animate-bounce" />
+          <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-brand-accent animate-bounce" />
         </div>
       </div>
     </section>
