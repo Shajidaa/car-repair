@@ -2,3 +2,5 @@ node_modules
 .next
 
 pnpm-lock.yaml
+.vercel
+.env*

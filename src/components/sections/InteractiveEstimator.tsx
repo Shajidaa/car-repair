@@ -74,11 +74,10 @@ export default function InteractiveEstimator() {
                   <button
                     key={t.id}
                     onClick={() => handleTierChange(t)}
-                    className={`p-4 rounded-xl border text-left transition-all ${
-                      tier.id === t.id
+                    className={`p-4 rounded-xl border text-left transition-all ${tier.id === t.id
                         ? "border-brand-accent bg-brand-accent/10 shadow-[0_0_15px_rgba(0,210,255,0.2)]"
                         : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
-                    }`}
+                      }`}
                     data-interactive="true"
                     data-cursor-label={t.name}
                   >
@@ -99,11 +98,10 @@ export default function InteractiveEstimator() {
                   <button
                     key={d.id}
                     onClick={() => handleDamageChange(d)}
-                    className={`p-4 rounded-xl border text-left transition-all flex items-center gap-3 ${
-                      damage.id === d.id
+                    className={`p-4 rounded-xl border text-left transition-all flex items-center gap-3 ${damage.id === d.id
                         ? "border-brand-accent bg-brand-accent/10 shadow-[0_0_15px_rgba(0,210,255,0.2)]"
                         : "border-slate-800 bg-slate-950/60 hover:border-slate-700"
-                    }`}
+                      }`}
                     data-interactive="true"
                     data-cursor-label={d.name}
                   >
@@ -138,11 +136,10 @@ export default function InteractiveEstimator() {
                   audioEngine.playTick(1700);
                   setIsSprint(!isSprint);
                 }}
-                className={`px-4 py-2 rounded-xl font-mono text-xs font-bold border transition-all ${
-                  isSprint
+                className={`px-4 py-2 rounded-xl font-mono text-xs font-bold border transition-all ${isSprint
                     ? "border-emerald-500 bg-emerald-500/20 text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
                     : "border-slate-700 bg-slate-950 text-slate-400"
-                }`}
+                  }`}
                 data-interactive="true"
                 data-cursor-label="SPRINT"
               >

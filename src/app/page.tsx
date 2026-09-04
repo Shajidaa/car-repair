@@ -37,7 +37,6 @@ export default function Home() {
       {/* 2. Interactive 3D Holographic Scanner & Laser Inspection Section */}
       <HolographicScanner />
 
-
       {/* 3. Craftsmanship Manifesto & 03-Day Rapid Sprint Pillars */}
       <StoryManifesto />
 
